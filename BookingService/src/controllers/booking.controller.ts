@@ -1,0 +1,27 @@
+import { Request, Response } from 'express';
+
+import {
+	confirmBookingService,
+	createBookingService
+} from '../services/booking.service';
+import { StatusCodes } from 'http-status-codes';
+
+export const createBookingHandler = async (req: Request, res: Response) => {
+	const booking = await createBookingService(req.body);
+
+	res.status(StatusCodes.CREATED).json({
+		bookingId: booking.bookingId,
+		idempotencyKey: booking.idempotencyKey
+	});
+};
+
+export const confirmBookingHandler = async (req: Request, res: Response) => {
+	const booking = await confirmBookingService(
+		req.params.idempotencyKey as string
+	);
+
+	res.status(StatusCodes.OK).json({
+		bookingId: booking.id,
+		status: booking.status
+	});
+};
