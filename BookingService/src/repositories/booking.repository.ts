@@ -39,17 +39,9 @@ export async function getIdemptencyKeyWithLock(
 		throw new BadRequestError('Invalid idempotency key format');
 	}
 
-	// const idempotencyKey: Array<IdempotencyKey> = await tx.$queryRaw(
-	// 	Prisma.raw(
-	// 		`SELECT * FROM IdempotencyKey WHERE idemKey = ${key} FOR UPDATE;`
-	// 	)
-	// );
-
 	const idempotencyKey = await tx.$queryRaw<IdempotencyKey[]>`
     SELECT * FROM IdempotencyKey WHERE idemKey = ${key} FOR UPDATE;
   `;
-
-	console.log('Idempotency key fetched with lock:', idempotencyKey);
 
 	if (!idempotencyKey || idempotencyKey.length === 0) {
 		throw new NotFoundError('Idempotency key not found');
