@@ -9,8 +9,8 @@ import {
 import logger from "./config/logger.config";
 import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middleware";
 import { setupMailWorker } from "./processors/email.processor";
-import { NotificationDTO } from "./dto/notification.dto";
-import { addEmailToQueue } from "./producers/email.producer";
+// import { NotificationDto } from "./dto/notification.dto";
+// import { addEmailToQueue } from "./producers/email.producer";
 const app = express();
 
 app.use(express.json());
@@ -36,15 +36,15 @@ app.listen(serverConfig.PORT, () => {
   setupMailWorker();
   logger.info("Mailer worker setup completed");
 
-  const sampleNotification: NotificationDTO = {
-    to: "sample",
-    subject: "Sample Email",
-    message: "sample-template",
-    params: {
-      name: "John Doe",
-      orderId: "12345",
-    },
-  };
+  // const sampleNotification: NotificationDto = {
+  //   to: "siddharthapalav@gmail.com",
+  //   subject: "Test Email",
+  //   templateId: "welcome",
+  //   params: {
+  //     name: "Siddharth Palav",
+  //     appName: "12345",
+  //   },
+  // };
 
-  addEmailToQueue(sampleNotification);
+  // addEmailToQueue(sampleNotification);
 });
